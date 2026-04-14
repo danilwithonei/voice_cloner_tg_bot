@@ -1,5 +1,5 @@
 # Use a base image with CUDA 12.8 support and Ubuntu 24.04 (includes Python 3.12)
-FROM nvidia/cuda:12.8.0-cudnn-runtime-ubuntu24.04
+FROM nvcr.io/nvidia/cuda:12.8.0-cudnn-runtime-ubuntu24.04
 
 # Avoid interactive prompts during build
 ENV DEBIAN_FRONTEND=noninteractive
@@ -17,9 +17,6 @@ RUN ln -sf /usr/bin/python3 /usr/bin/python
 
 # Set working directory
 WORKDIR /app
-
-# Upgrade pip and install setuptools
-RUN pip install --upgrade pip setuptools --break-system-packages
 
 # Copy requirements first for better caching
 COPY requirements.txt .
