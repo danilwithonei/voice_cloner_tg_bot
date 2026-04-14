@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+python-multipart
+omnivoice
+openai-whisper
+aiogram
+python-dotenv
+requests
+httpx

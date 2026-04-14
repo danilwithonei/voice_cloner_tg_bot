@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  voice-cloner-api:
+    build: .
+    container_name: voice-cloner-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+      - ./temp_audio:/app/temp_audio
+      # Cache models to avoid redownloading on container restart
+      - huggingface_cache:/root/.cache/huggingface
+      - whisper_cache:/root/.cache/whisper
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    environment:
+      - CUDA_VISIBLE_DEVICES=0
+      - PYTHONUNBUFFERED=1
+    restart: always
+    networks:
+      - voice-cloner-network
+
+  voice-cloner-bot:
+    build: .
+    container_name: voice-cloner-bot
+    depends_on:
+      - voice-cloner-api
+    volumes:
+      - .:/app
+    environment:
+      - BOT_TOKEN=${BOT_TOKEN}
+      - API_URL=http://voice-cloner-api:8000
+      - PYTHONUNBUFFERED=1
+    command: python bot.py
+    restart: always
+    networks:
+      - voice-cloner-network
+
+volumes:
+  huggingface_cache:
+  whisper_cache:
+
+networks:
+  voice-cloner-network:
+    driver: bridge

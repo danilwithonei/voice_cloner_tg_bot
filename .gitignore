@@ -1,0 +1,22 @@
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Docker
+.dockerignore
+
+# IDE
+.idea/
+.vscode/
+
+# Temp files
+temp_audio/
+*.wav
