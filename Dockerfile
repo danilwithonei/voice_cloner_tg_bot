@@ -22,10 +22,10 @@ WORKDIR /app
 COPY requirements.txt .
 
 # Install PyTorch with CUDA 12.4 support
-RUN pip install torch torchaudio --index-url https://download.pytorch.org/whl/cu124 --break-system-packages
+RUN pip install torch torchaudio --index-url https://download.pytorch.org/whl/cu124
 
 # Install remaining dependencies
-RUN pip install -r requirements.txt --break-system-packages
+RUN pip install -r requirements.txt
 
 # Copy the rest of the application
 COPY . .
